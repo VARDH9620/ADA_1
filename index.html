@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design & Analysis of Algorithms Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-light.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+        }
+
+        .cover-page::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 50%;
+            bottom: -80px;
+            right: -80px;
+        }
+
+        .cover-badge {
+            background: rgba(229, 57, 53, 0.2);
+            border: 1px solid rgba(229, 57, 53, 0.5);
+            color: #ef5350;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .cover-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a2e;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .cover-title span {
+            color: #e53935;
+        }
+
+        .cover-subtitle {
+            font-size: 18px;
+            color: #636e72;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cover-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #e53935, #ff7043);
+            border-radius: 2px;
+            margin: 0 auto 50px;
+        }
+
+        .cover-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        .cover-info-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .cover-info-card .number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #e53935;
+            display: block;
+        }
+
+        .cover-info-card .label {
+            font-size: 12px;
+            color: #636e72;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .cover-footer {
+            position: absolute;
+            bottom: 30px;
+            color: #b2bec3;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Table of Contents */
+        .toc-page {
+            background: #ffffff;
+            padding: 60px;
+            page-break-after: always;
+            min-height: 100vh;
+        }
+
+        .toc-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e53935;
+        }
+
+        .toc-header h2 {
+            font-size: 32px;
+            color: #1a1a2e;
+            font-weight: 800;
+        }
+
+        .toc-header p {
+            color: #636e72;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed #dfe6e9;
+            transition: all 0.2s;
+        }
+
+        .toc-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #e53935, #ff7043);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .toc-text {
+            flex: 1;
+        }
+
+        .toc-text h3 {
+            font-size: 15px;
+            color: #2d3436;
+            font-weight: 600;
+        }
+
+        .toc-text p {
+            font-size: 12px;
+            color: #b2bec3;
+            margin-top: 2px;
+        }
+
+        .toc-dots {
+            flex: 1;
+            border-bottom: 2px dotted #dfe6e9;
+            margin: 0 15px;
+        }
+
+        .toc-tag {
+            background: #fff5f5;
+            color: #e53935;
+            border: 1px solid #ffcdd2;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Program Card */
+        .program-card {
+            background: #ffffff;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            page-break-inside: avoid;
+            page-break-before: always;
+        }
+
+        .program-header {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            padding: 30px 35px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .program-header::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(229, 57, 53, 0.05);
+            border-radius: 50%;
+        }
+
+        .program-number {
+            display: inline-block;
+            background: #e53935;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .program-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3436;
+            line-height: 1.4;
+        }
+
+        .program-subtitle {
+            font-size: 13px;
+            color: #636e72;
+            margin-top: 8px;
+        }
+
+        .program-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: #ffffff;
+            color: #2d3436;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            border: 1px solid #dfe6e9;
+        }
+
+        /* Sub Program */
+        .sub-program {
+            padding: 25px 35px 5px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .sub-program-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff5f5;
+            color: #e53935;
+            border: 1px solid #ffcdd2;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .sub-program-title {
+            font-size: 15px;
+            color: #2d3436;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Code Block */
+        .code-container {
+            margin: 0 35px 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-header {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #febc2e; }
+        .dot-green { background: #28c840; }
+
+        .code-lang {
+            color: #636e72;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.05);
+            padding: 2px 10px;
+            border-radius: 8px;
+        }
+
+        pre {
+            background: #ffffff;
+            color: #383a42;
+            padding: 25px;
+            margin: 0;
+            overflow-x: auto;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            tab-size: 4;
+        }
+
+        /* Syntax Highlighting */
+        .kw { color: #a626a4; font-weight: bold; }
+        .fn { color: #4078f2; }
+        .str { color: #50a14f; }
+        .cm { color: #a0a1a7; font-style: italic; }
+        .num { color: #986801; }
+        .inc { color: #e45649; }
+        .pp { color: #e45649; }
+        .type { color: #c18401; }
+
+        /* Direct code block (no highlighting) */
+        .code-container pre code {
+            display: block;
+        }
+
+        /* Section divider */
+        .section-divider {
+            text-align: center;
+            padding: 15px 35px;
+            color: #b2bec3;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #f8f9fa;
+            border-top: 1px solid #f0f2f5;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 20px;
+            color: #b2bec3;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+            }
+
+            /* Force all backgrounds and colors to print */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            pre {
+                /* Ensure long code lines wrap in PDF instead of getting cut off */
+                white-space: pre-wrap !important;
+                word-wrap: break-word !important;
+            }
+
+            .program-card {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                page-break-before: always;
+                box-shadow: none !important; /* Remove shadow for cleaner print */
+                border: 1px solid #ddd; /* Subtle border for structure */
+            }
+
+            .code-container {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .cover-page {
+                height: 100vh;
+                page-break-after: always;
+            }
+
+            .toc-page {
+                page-break-after: always;
+            }
+        }
+    
+        /* Copy Button Styles */
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-lang-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #636e72;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background: rgba(0,0,0,0.05);
+            color: #2d3436;
+        }
+        .copy-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+    
+        .toc-item {
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .toc-item:hover {
+            transform: translateX(5px);
+            background: rgba(0,0,0,0.02);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cover-page">
+        <div class="cover-badge">LAB MANUAL</div>
+        <div class="cover-title">
+            <span>Design & Analysis</span>
+            <br>
+            of Algorithms
+        </div>
+        <div class="cover-subtitle">Laboratory Programs (C/C++)</div>
+        <div class="cover-info">
+            <p>Programs exactly sorted as per the syllabus.</p>
+        </div>
+    </div>
+
+    <div class="toc-page">
+        <h2>Table of Contents</h2>
+
+        <div class="toc-item" onclick="document.getElementById('program-1').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">1</div>
+            <div class="toc-text">
+                <h3>Selection Sort</h3>
+                <p>Design and implement a Program to sort a given set of n integer elements using the Selection Sort me...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-2').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">2</div>
+            <div class="toc-text">
+                <h3>Quick Sort</h3>
+                <p>Design and implement a Program to sort a given set of n integer elements using the Quick Sort method...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-3').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">3</div>
+            <div class="toc-text">
+                <h3>Merge Sort</h3>
+                <p>Design and implement a Program to sort a given set of n integer elements using the Merge Sort method...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-4').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">4</div>
+            <div class="toc-text">
+                <h3>Topological Ordering</h3>
+                <p>Design and implement a Program to obtain the Topological ordering of the vertices in a given digraph...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-5a').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">5a</div>
+            <div class="toc-text">
+                <h3>Minimum Cost Spanning Tree (Kruskal's)</h3>
+                <p>Design and implement Program to find the Minimum Cost Spanning Tree of a given connected undirected ...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-5b').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">5b</div>
+            <div class="toc-text">
+                <h3>Minimum Cost Spanning Tree (Prim's)</h3>
+                <p>Design and implement Program to find the Minimum Cost Spanning Tree of a given connected undirected ...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-6').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">6</div>
+            <div class="toc-text">
+                <h3>Dijkstra's Algorithm</h3>
+                <p>Design and implement a Program to find the shortest paths from a given vertex in a weighted connecte...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-7').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">7</div>
+            <div class="toc-text">
+                <h3>0/1 Knapsack (DP)</h3>
+                <p>Design and implement a Program to solve the 0/1 Knapsack problem using the Dynamic Programming metho...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-8a').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">8a</div>
+            <div class="toc-text">
+                <h3>Floyd's Algorithm</h3>
+                <p>Design and implement a Program to solve All-Pairs Shortest Paths problem using Floyd's algorithm....</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-8b').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">8b</div>
+            <div class="toc-text">
+                <h3>Warshall's Algorithm</h3>
+                <p>Design and implement a Program to find the transitive closure using Warshal's algorithm....</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-9').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">9</div>
+            <div class="toc-text">
+                <h3>Subset Sum Problem</h3>
+                <p>Design and implement a Program to find a subset of a given set S = {sl, s2,.....,sn} of n positive i...</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+        <div class="toc-item" onclick="document.getElementById('program-10').scrollIntoView({behavior: 'smooth'})">
+            <div class="toc-number">10</div>
+            <div class="toc-text">
+                <h3>N Queen's Problem</h3>
+                <p>Design and implement a Program for N Queens problem using Backtracking....</p>
+            </div>
+            <div class="toc-dots"></div>
+        </div>
+
+    </div>
+
+    <div class="program-page" id="program-1">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 1</div>
+                <div class="program-title">Selection Sort</div>
+                <div class="program-desc">Design and implement a Program to sort a given set of n integer elements using the Selection Sort method and compute its time complexity. Run the program for varied values of n > 5000 and record the time taken to sort.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+#include &lt;time.h&gt; 
+
+void selectionSort(int arr[], int n); 
+void generateRandomArray(int arr[], int n); 
+
+int main() { 
+    int n; 
+    clock_t start, end; 
+    double timeTaken; 
+    printf("Enter the number of elements to sort (n &gt; 5000): "); 
+    scanf("%d", &n); 
+    if (n &lt;= 5000) { 
+        printf("Please enter a value greater than 5000.\n"); 
+        return 1; 
+    } 
+    int *arr = (int*)malloc(n * sizeof(int)); 
+    if (arr == NULL) { 
+        printf("Memory allocation failed.\n"); 
+        return 1; 
+    } 
+    generateRandomArray(arr, n); 
+    
+    start = clock(); 
+    selectionSort(arr, n); 
+    end = clock(); 
+    
+    timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC; 
+    printf("Time taken to sort %d elements using Selection Sort: %f seconds\n", n, timeTaken); 
+    free(arr); 
+    return 0; 
+} 
+
+void selectionSort(int arr[], int n) { 
+    int i, j, minIdx; 
+    for (i = 0; i &lt; n - 1; i++) { 
+        minIdx = i; 
+        for (j = i + 1; j &lt; n; j++) { 
+            if (arr[j] &lt; arr[minIdx]) { 
+                minIdx = j; 
+            } 
+        } 
+        if (minIdx != i) { 
+            int temp = arr[minIdx]; 
+            arr[minIdx] = arr[i]; 
+            arr[i] = temp; 
+        } 
+    } 
+} 
+
+void generateRandomArray(int arr[], int n) { 
+    srand(time(0)); 
+    for (int i = 0; i &lt; n; i++) { 
+        arr[i] = rand(); 
+    } 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-2">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 2</div>
+                <div class="program-title">Quick Sort</div>
+                <div class="program-desc">Design and implement a Program to sort a given set of n integer elements using the Quick Sort method and compute its time complexity. Run the program for varied values of n > 5000 and record the time taken to sort.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+#include &lt;time.h&gt; 
+
+void quickSort(int arr[],int low, int high); 
+int partition(int arr[],int low, int high); 
+void swap(int arr[],int a, int b); 
+void generateRandomArray(int arr[], int n); 
+
+int main() { 
+    int n; 
+    clock_t start,end; 
+    double time_taken; 
+    printf("Enter the number of elements to sort (n &gt; 5000): "); 
+    scanf("%d", &n); 
+    int *arr = (int*)malloc(n * sizeof(int)); 
+    generateRandomArray(arr, n); 
+    printf("Before sorting\n"); 
+    for(int i=0;i&lt;n;i++) printf("%d ",arr[i]); 
+    
+    start=clock(); 
+    quickSort(arr,0,n-1); 
+    end=clock(); 
+    
+    printf("\nAfter sorting\n"); 
+    for(int i=0;i&lt;n;i++) printf("%d ",arr[i]); 
+    time_taken=((double)(end-start))/CLOCKS_PER_SEC; 
+    printf("\nTime taken to sort %d elements using Quick Sort: %f seconds\n", n, time_taken); 
+    free(arr); 
+    return 0; 
+} 
+
+int partition(int arr[],int l,int r) { 
+    int p,i,j; 
+    p=arr[l]; 
+    i=l; 
+    j=r+1; 
+    while(i&lt;j) { 
+        do { i = i + 1; } while(i &lt; r && arr[i] &lt; p); 
+        do { j = j - 1; } while(j &gt; l && arr[j] &gt; p); 
+        if(i &lt; j) swap(arr,i,j); 
+    } 
+    swap(arr,l,j); 
+    return j; 
+} 
+
+void quickSort(int arr[], int l, int r) { 
+    int s; 
+    if(l&lt;r) { 
+        s=partition(arr,l,r); 
+        quickSort(arr,l,s-1); 
+        quickSort(arr,s+1,r); 
+    } 
+} 
+
+void swap(int arr[],int i, int j) { 
+    int temp = arr[i]; 
+    arr[i] = arr[j]; 
+    arr[j] = temp; 
+} 
+
+void generateRandomArray(int arr[], int n) { 
+    for (int i = 0; i &lt; n; i++) { 
+        arr[i] = rand()%n; 
+    } 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-3">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 3</div>
+                <div class="program-title">Merge Sort</div>
+                <div class="program-desc">Design and implement a Program to sort a given set of n integer elements using the Merge Sort method and compute its time complexity. Run the program for varied values of n > 5000, and record the time taken to sort.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+#include &lt;time.h&gt; 
+
+void merge(int a[], int b[], int low, int mid, int high); 
+void mergesort(int a[], int b[], int low, int high); 
+void generateRandomArray(int arr[], int n); 
+
+int main() { 
+    int n,i; 
+    clock_t start, end; 
+    double time_taken; 
+    printf("Enter number of elements (n &gt; 5000): "); 
+    scanf("%d", &n); 
+    int *a = (int*)malloc(n * sizeof(int)); 
+    int *b = (int*)malloc(n * sizeof(int)); 
+    srand(time(0)); 
+    generateRandomArray(a, n); 
+    printf("Elements of the array before sorting\n"); 
+    for(i=0;i&lt;n;i++) printf("%d\n",a[i]); 
+    
+    start = clock(); 
+    mergesort(a, b, 0, n - 1); 
+    end = clock(); 
+    
+    printf("Elements of the array after sorting\n"); 
+    for(i=0;i&lt;n;i++) printf("%d\n",a[i]); 
+    
+    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC; 
+    printf("Time taken to sort %d elements using Merge Sort: %f seconds\n", n, time_taken); 
+    free(a); free(b); 
+    return 0; 
+} 
+
+void generateRandomArray(int a[], int n) { 
+    for (int i = 0; i &lt; n; i++) { 
+        a[i] = rand() % n; 
+    } 
+} 
+
+void mergesort(int a[], int b[], int low, int high) { 
+    if (low &lt; high) { 
+        int mid = (low + high) / 2; 
+        mergesort(a, b, low, mid); 
+        mergesort(a, b, mid + 1, high); 
+        merge(a, b, low, mid, high); 
+    } 
+} 
+
+void merge(int a[],int b[],int low,int mid,int high) { 
+    int i,j,k,h; 
+    h=i=low; j=mid+1; 
+    while(h&lt;=mid&&j&lt;=high) 
+        if(a[h]&lt;a[j]) b[i++]=a[h++]; 
+        else          b[i++]=a[j++]; 
+    if(h&gt;mid) 
+        for(k=j;k&lt;=high;k++) b[i++]=a[k]; 
+    else 
+        for(k=h;k&lt;=mid;k++) b[i++]=a[k]; 
+    for(k=low;k&lt;=high;k++) a[k]=b[k]; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-4">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 4</div>
+                <div class="program-title">Topological Ordering</div>
+                <div class="program-desc">Design and implement a Program to obtain the Topological ordering of the vertices in a given digraph.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include&lt;stdio.h&gt; 
+#include&lt;conio.h&gt; 
+
+int temp[10],k=0; 
+
+void sort(int a[][10],int id[],int n) { 
+    int i,j; 
+    for(i=1; i&lt;=n; i++) { 
+        if(id[i]==0) { 
+            id[i]=-1; 
+            temp[++k]=i; 
+            for(j=1; j&lt;=n; j++) { 
+                if(a[i][j]==1 && id[j]!=-1) id[j]--; 
+            } 
+            i=0; 
+        } 
+    } 
+} 
+
+int main() { 
+    int a[10][10],id[10],n,i,j; 
+    printf("\nEnter the n value:"); 
+    scanf("%d",&n); 
+    for(i=1; i&lt;=n; i++) id[i]=0; 
+    printf("\nEnter the graph data:\n"); 
+    for(i=1; i&lt;=n; i++) {
+        for(j=1; j&lt;=n; j++) { 
+            scanf("%d",&a[i][j]); 
+            if(a[i][j]==1) id[j]++; 
+        }
+    } 
+    sort(a,id,n); 
+    if(k!=n) printf("\nTopological ordering not possible"); 
+    else { 
+        printf("\nTopological ordering is:"); 
+        for(i=1; i&lt;=k; i++) printf("%d ",temp[i]); 
+    } 
+    getch(); 
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-5a">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 5a</div>
+                <div class="program-title">Minimum Cost Spanning Tree (Kruskal's)</div>
+                <div class="program-desc">Design and implement Program to find the Minimum Cost Spanning Tree of a given connected undirected graph using Kruskal's algorithm.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#define INF 999 
+#define MAX 100 
+
+int parent[MAX]; 
+int cost[MAX][MAX]; 
+int tree[MAX][2]; 
+
+int find(int v) { 
+    if(parent[v] == -1) return v; 
+    return parent[v] = find(parent[v]); 
+} 
+
+void unionSets(int u, int v) { 
+    parent[v] = u; 
+} 
+
+void kruskal(int n) { 
+    int i, j, k, u, v, min; 
+    int a = 0, b = 0; 
+    int totalCost = 0; 
+    for(k = 0; k &lt; n - 1; k++) { 
+        min = INF; 
+        for(i = 0; i &lt; n; i++) { 
+            for(j = 0; j &lt; n; j++) { 
+                if(i != j && cost[i][j] &lt; min) { 
+                    u = find(i); 
+                    v = find(j); 
+                    if(u != v) { 
+                        min = cost[i][j]; 
+                        a = i; b = j; 
+                    } 
+                } 
+            } 
+        } 
+        unionSets(find(a), find(b)); 
+        tree[k][0] = a; 
+        tree[k][1] = b; 
+        totalCost += min; 
+        cost[a][b] = cost[b][a] = INF; 
+    } 
+    printf("\nEdges in Minimum Spanning Tree:\n"); 
+    for(i = 0; i &lt; n - 1; i++) { 
+        printf("%d -&gt; %d\n", tree[i][0], tree[i][1]); 
+    } 
+    printf("\nTotal Cost of MST = %d\n", totalCost); 
+} 
+ 
+int main() { 
+    int n, i, j; 
+    printf("Enter number of vertices: "); 
+    scanf("%d", &n); 
+    for(i = 0; i &lt; n; i++) { 
+        parent[i] = -1; 
+    } 
+    printf("Enter adjacency matrix:\n"); 
+    for(i = 0; i &lt; n; i++) { 
+        for(j = 0; j &lt; n; j++) { 
+            scanf("%d", &cost[i][j]); 
+        } 
+    } 
+    kruskal(n); 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-5b">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 5b</div>
+                <div class="program-title">Minimum Cost Spanning Tree (Prim's)</div>
+                <div class="program-desc">Design and implement Program to find the Minimum Cost Spanning Tree of a given connected undirected graph using Prim's algorithm.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#define INF 999 
+ 
+int prim(int c[10][10], int n, int s) { 
+    int visited[10], parent[10], dist[10]; 
+    int i, j, u, min, cost = 0; 
+ 
+    for(i = 0; i &lt; n; i++) { 
+        visited[i] = 0; 
+        dist[i] = c[s][i]; 
+        parent[i] = s; 
+    } 
+    visited[s] = 1; 
+ 
+    for(i = 0; i &lt; n - 1; i++) { 
+        min = INF; 
+        for(j = 0; j &lt; n; j++) { 
+            if(visited[j] == 0 && dist[j] &lt; min) { 
+                min = dist[j]; 
+                u = j; 
+            } 
+        } 
+        visited[u] = 1; 
+        cost = cost + dist[u]; 
+        printf("Edge %d : %d -&gt; %d  Cost = %d\n", i + 1, parent[u], u, dist[u]); 
+ 
+        for(j = 0; j &lt; n; j++) { 
+            if(visited[j] == 0 && c[u][j] &lt; dist[j]) { 
+                dist[j] = c[u][j]; 
+                parent[j] = u; 
+            } 
+        } 
+    } 
+    return cost; 
+} 
+ 
+int main() { 
+    int c[10][10]; 
+    int n, s, i, j, totalCost; 
+    printf("Enter number of vertices: "); 
+    scanf("%d", &n); 
+    printf("Enter adjacency matrix:\n"); 
+    for(i = 0; i &lt; n; i++) { 
+        for(j = 0; j &lt; n; j++) { 
+            scanf("%d", &c[i][j]); 
+        } 
+    } 
+    printf("Enter source vertex (0 to %d): ", n - 1); 
+    scanf("%d", &s); 
+    totalCost = prim(c, n, s); 
+    printf("\nTotal cost of Minimum Spanning Tree = %d\n", totalCost); 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-6">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 6</div>
+                <div class="program-title">Dijkstra's Algorithm</div>
+                <div class="program-desc">Design and implement a Program to find the shortest paths from a given vertex in a weighted connected graph to other vertices using Dijkstra's algorithm.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include&lt;stdio.h&gt; 
+#define INF 999 
+ 
+void dijkstra(int c[10][10], int n, int s, int d[10]) { 
+    int v[10], min, u, i, j; 
+    for(i = 1; i &lt;= n; i++) { 
+        d[i] = c[s][i]; 
+        v[i] = 0; 
+    } 
+    v[s] = 1; 
+    for(i = 1; i &lt;= n; i++) { 
+        min = INF; 
+        for(j = 1; j &lt;= n; j++) { 
+            if(v[j] == 0 && d[j] &lt; min) { 
+                min = d[j]; 
+                u = j; 
+            } 
+        } 
+        v[u] = 1; 
+        for(j = 1; j &lt;= n; j++) { 
+            if(v[j] == 0 && (d[u] + c[u][j]) &lt; d[j]) { 
+                d[j] = d[u] + c[u][j]; 
+            } 
+        } 
+    } 
+} 
+ 
+int main() { 
+    int c[10][10], d[10], i, j, s, n; 
+    printf("\nEnter number of vertices: "); 
+    scanf("%d", &n); 
+    printf("\nEnter the cost adjacency matrix:\n"); 
+    for(i = 1; i &lt;= n; i++) { 
+        for(j = 1; j &lt;= n; j++) { 
+            scanf("%d", &c[i][j]); 
+        } 
+    } 
+    printf("\nEnter the source vertex: "); 
+    scanf("%d", &s); 
+    dijkstra(c, n, s, d); 
+    printf("\nShortest paths from source vertex %d:\n", s); 
+    for(i = 1; i &lt;= n; i++) { 
+        printf("Distance from %d to %d = %d\n", s, i, d[i]); 
+    } 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-7">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 7</div>
+                <div class="program-title">0/1 Knapsack (DP)</div>
+                <div class="program-desc">Design and implement a Program to solve the 0/1 Knapsack problem using the Dynamic Programming method.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+ 
+int max(int a, int b) { 
+    return (a &gt; b) ? a : b; 
+} 
+ 
+int main() { 
+    int n, capacity, i, j; 
+    int w[100], p[100], F[100][100]; 
+ 
+    printf("Enter the number of items: "); 
+    scanf("%d", &n); 
+    printf("Enter the capacity of knapsack: "); 
+    scanf("%d", &capacity); 
+ 
+    printf("Enter the profits (p) of the items:\n"); 
+    for(i = 1; i &lt;= n; i++) { 
+        scanf("%d", &p[i]); 
+    } 
+ 
+    printf("Enter the weights (w) of the items:\n"); 
+    for(i = 1; i &lt;= n; i++) { 
+        scanf("%d", &w[i]); 
+    } 
+ 
+    for(i = 0; i &lt;= n; i++) { 
+        for(j = 0; j &lt;= capacity; j++) { 
+            if(i == 0 || j == 0) 
+                F[i][j] = 0; 
+            else if(w[i] &lt;= j) 
+                F[i][j] = max(F[i-1][j], p[i] + F[i-1][j - w[i]]); 
+            else 
+                F[i][j] = F[i-1][j]; 
+        } 
+    } 
+ 
+    printf("Maximum profit = %d\n", F[n][capacity]); 
+ 
+    printf("Items included (1-based index): "); 
+    i = n; 
+    j = capacity; 
+    while(i &gt; 0 && j &gt; 0) { 
+        if(F[i][j] != F[i-1][j]) { 
+            printf("%d ", i); 
+            j -= w[i]; 
+        } 
+        i--; 
+    } 
+    printf("\n"); 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-8a">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 8a</div>
+                <div class="program-title">Floyd's Algorithm</div>
+                <div class="program-desc">Design and implement a Program to solve All-Pairs Shortest Paths problem using Floyd's algorithm.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include&lt;stdio.h&gt; 
+#define INF 999 
+
+int min(int a,int b) { 
+    return (a&lt;b)?a:b; 
+} 
+
+void floyd(int p[][10],int n) { 
+    int i,j,k; 
+    for(k=1; k&lt;=n; k++) 
+        for(i=1; i&lt;=n; i++) 
+            for(j=1; j&lt;=n; j++) 
+                p[i][j]=min(p[i][j],p[i][k]+p[k][j]); 
+} 
+
+int main() { 
+    int a[10][10],n,i,j; 
+    printf("\nEnter the n value:"); 
+    scanf("%d",&n); 
+    printf("\nEnter the graph data:\n"); 
+    for(i=1; i&lt;=n; i++) 
+        for(j=1; j&lt;=n; j++) 
+            scanf("%d",&a[i][j]); 
+    floyd(a,n); 
+    printf("\nShortest path matrix\n"); 
+    for(i=1; i&lt;=n; i++) { 
+        for(j=1; j&lt;=n; j++) 
+            printf("%d ",a[i][j]); 
+        printf("\n"); 
+    } 
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-8b">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 8b</div>
+                <div class="program-title">Warshall's Algorithm</div>
+                <div class="program-desc">Design and implement a Program to find the transitive closure using Warshal's algorithm.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include&lt;stdio.h&gt; 
+
+void warsh(int p[][10],int n) { 
+    int i,j,k; 
+    for(k=1; k&lt;=n; k++) 
+        for(i=1; i&lt;=n; i++) 
+            for(j=1; j&lt;=n; j++) 
+                p[i][j]=p[i][j] || (p[i][k] && p[k][j]); 
+} 
+
+int main() { 
+    int a[10][10],n,i,j; 
+    printf("\nEnter the n value:"); 
+    scanf("%d",&n); 
+    printf("\nEnter the graph data:\n"); 
+    for(i=1; i&lt;=n; i++) 
+        for(j=1; j&lt;=n; j++) 
+            scanf("%d",&a[i][j]); 
+    warsh(a,n); 
+    printf("\nResultant path matrix\n"); 
+    for(i=1; i&lt;=n; i++) { 
+        for(j=1; j&lt;=n; j++) 
+            printf("%d ",a[i][j]); 
+        printf("\n"); 
+    } 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-9">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 9</div>
+                <div class="program-title">Subset Sum Problem</div>
+                <div class="program-desc">Design and implement a Program to find a subset of a given set S = {sl, s2,.....,sn} of n positive integers whose sum is equal to a given positive integer d.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#define MAX 20 
+ 
+int s[MAX], x[MAX], d, n; 
+ 
+void sumofsub(int p, int k, int r) { 
+    int i; 
+    x[k] = 1; 
+    if (p + s[k] == d) { 
+        printf("Subset: "); 
+        for (i = 1; i &lt;= k; i++) { 
+            if (x[i] == 1) 
+                printf("%d ", s[i]); 
+        } 
+        printf("\n"); 
+    } 
+    else if (k &lt; n && (p + s[k] + s[k + 1] &lt;= d)) { 
+        sumofsub(p + s[k], k + 1, r - s[k]); 
+    } 
+    if (k &lt; n && (p + r - s[k] &gt;= d) && (p + s[k + 1] &lt;= d)) { 
+        x[k] = 0; 
+        sumofsub(p, k + 1, r - s[k]); 
+    } 
+} 
+ 
+int main() { 
+    int i, sum = 0; 
+    printf("Enter the number of elements: "); 
+    scanf("%d", &n); 
+    printf("Enter the elements in increasing order:\n"); 
+    for (i = 1; i &lt;= n; i++) { 
+        scanf("%d", &s[i]); 
+        sum += s[i]; 
+    } 
+    printf("Enter the target sum: "); 
+    scanf("%d", &d); 
+    if (sum &lt; d || s[1] &gt; d) { 
+        printf("No subset possible.\n"); 
+    } else { 
+        printf("Subsets whose sum is %d are:\n", d); 
+        sumofsub(0, 1, sum); 
+    } 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="program-page" id="program-10">
+        <div class="program-card">
+            <div class="program-header">
+                <div class="program-number">Program 10</div>
+                <div class="program-title">N Queen's Problem</div>
+                <div class="program-desc">Design and implement a Program for N Queens problem using Backtracking.</div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-lang-wrapper">
+                        <div class="code-dots">
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                            <div class="code-dot"></div>
+                        </div>
+                        <div class="code-lang">&#123;&#125; C</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code class="language-c">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+ 
+int a[30], count = 0; 
+ 
+int place(int pos) { 
+    int i; 
+    for(i = 1; i &lt; pos; i++) { 
+        if((a[i] == a[pos]) || (abs(a[i] - a[pos]) == abs(i - pos))) 
+            return 0; 
+    } 
+    return 1; 
+} 
+ 
+void print_sol(int n) { 
+    int i, j; 
+    count++; 
+    printf("\nSolution #%d:\n", count); 
+    for(i = 1; i &lt;= n; i++) { 
+        for(j = 1; j &lt;= n; j++) { 
+            if(a[i] == j) printf("Q\t"); 
+            else          printf("*\t"); 
+        } 
+        printf("\n"); 
+    } 
+} 
+ 
+void queen(int n) { 
+    int k = 1; 
+    a[k] = 0; 
+    while(k != 0) { 
+        a[k]++; 
+        while((a[k] &lt;= n) && !place(k)) a[k]++; 
+        if(a[k] &lt;= n) { 
+            if(k == n) print_sol(n); 
+            else { k++; a[k] = 0; } 
+        } else { 
+            k--; 
+        } 
+    } 
+} 
+
+int main() { 
+    int n; 
+    printf("Enter the number of Queens: "); 
+    scanf("%d", &n); 
+    queen(n); 
+    printf("\nTotal number of solutions = %d\n", count); 
+    return 0; 
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/c.min.js"></script>
+    <script>
+        hljs.highlightAll();
+        function copyCode(btn) {
+            const pre = btn.closest('.code-container').querySelector('pre');
+            const code = pre.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
